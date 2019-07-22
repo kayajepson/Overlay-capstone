@@ -49,7 +49,7 @@ async componentDidMount() {
   }
 }
 
-
+//splash screen
 render() {
   if (this.state.isLoading) {
     return <SplashScreen />;

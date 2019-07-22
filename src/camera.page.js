@@ -1,4 +1,5 @@
 import { Constants, Camera, FileSystem, Permissions, BarCodeScanner } from 'expo';
+import {Image, Transformation, CloudinaryContext} from 'cloudinary-react';
 import React from 'react';
 import {
   Alert,
