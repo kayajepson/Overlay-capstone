@@ -4,6 +4,7 @@ import CameraPage from './src/camera.page';
 import { Constants } from 'expo';
 import Home from './src/components/Home.component.js';
 import { createDrawerNavigator, createAppContainer } from "react-navigation";
+import Gallery from './src/components/Gallery.component.js';
 
 
 class SplashScreen extends React.Component {
@@ -79,9 +80,9 @@ const AppNavigator = createDrawerNavigator({
   Camera: {
     screen: CameraPage
   },
-  // Contact: {
-  //   screen: ContactScreen
-  // }
+  Gallery: {
+    screen: Gallery
+  }
 }, {
     initialRouteName: "Home",
     contentOptions: {

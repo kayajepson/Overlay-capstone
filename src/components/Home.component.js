@@ -98,7 +98,7 @@ export default class Home extends React.Component {
           <Text style={styles.photoText} onPress={() => this.props.navigation.navigate('Camera')}>
           {this.state.photoText}{'\n'}{'\n'}{'\n'}
           </Text>
-          <Text style={styles.galleryText}>
+          <Text style={styles.galleryText} onPress={() => this.props.navigation.navigate('Gallery')}>
           {this.state.galleryText}{'\n'}{'\n'}
           </Text>
         </Text>
