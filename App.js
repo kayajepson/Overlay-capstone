@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 import CameraPage from './src/camera.page';
 import { Constants } from 'expo';
-import Home from './src/components/Home.component.js'
+import Home from './src/components/Home.component.js';
 
 
 class SplashScreen extends React.Component {
@@ -17,7 +17,7 @@ class SplashScreen extends React.Component {
         backgroundColor: '#ecf0f1',
       },
     });
-    
+
     return (
       <View style={styles.container}>
       <Image
@@ -33,8 +33,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
-      isLoading: true 
+    this.state = {
+      isLoading: true
     }
   }
 
@@ -61,7 +61,7 @@ async componentDidMount() {
 //splash screen
 render() {
   if (this.state.isLoading) {
-    return <SplashScreen />;
+    // return <SplashScreen />;
   }
 
   return (
