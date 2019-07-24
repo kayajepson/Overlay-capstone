@@ -3,6 +3,7 @@ import { StyleSheet, Image, Text, View } from 'react-native';
 import CameraPage from './src/camera.page';
 import { Constants } from 'expo';
 import Home from './src/components/Home.component.js';
+import { createDrawerNavigator, createAppContainer } from "react-navigation";
 
 
 class SplashScreen extends React.Component {
@@ -66,10 +67,30 @@ render() {
 
   return (
     // <CameraPage />
-    <Home />
+     <AppContainer />
   );
 };
 };
+
+const AppNavigator = createDrawerNavigator({
+  Home: {
+    screen: Home
+  },
+  Camera: {
+    screen: CameraPage
+  },
+  // Contact: {
+  //   screen: ContactScreen
+  // }
+}, {
+    initialRouteName: "Home",
+    contentOptions: {
+      activeTintColor: '#e91e63'
+    }
+  });
+
+const AppContainer = createAppContainer(AppNavigator);
+
 
 const styles = StyleSheet.create({
   container: {

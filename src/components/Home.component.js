@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, StyleSheet, Image, View  } from 'react-native';
+import { Button, AppRegistry, Text, StyleSheet, Image, View  } from 'react-native';
 import { Constants } from 'expo';
-
+import CameraPage from '../camera.page';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {Platform} from 'react-native';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -23,17 +25,38 @@ export default class Home extends React.Component {
     const floralIcon = require('../../assets/element_24.png');
     const styles = StyleSheet.create({
       photoText: {
-        fontFamily: 'Bodoni 72',
+        ...Platform.select({
+          ios: {
+            fontFamily: 'Bodoni 72',
+          },
+          android: {
+            fontFamily: 'serif'
+          }
+        }),
         textAlign: 'center',
         fontSize: 20,
       },
       galleryText: {
-        fontFamily: 'Bodoni 72',
+          ...Platform.select({
+            ios: {
+              fontFamily: 'Bodoni 72',
+            },
+            android: {
+              fontFamily: 'serif'
+            }
+          }),
         textAlign: 'center',
         fontSize: 20,
       },
       titleText: {
-        fontFamily: 'Bodoni 72',
+          ...Platform.select({
+            ios: {
+              fontFamily: 'Bodoni 72',
+            },
+            android: {
+              fontFamily: 'serif'
+            }
+          }),
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -79,6 +102,10 @@ export default class Home extends React.Component {
           {this.state.galleryText}{'\n'}{'\n'}
           </Text>
         </Text>
+        <Button
+          title="Go to Camera"
+          onPress={() => this.props.navigation.navigate('Camera')}
+        />
         <Image
         style={styles.icon_img}
         source={floralIcon} />
