@@ -95,21 +95,16 @@ export default class Home extends React.Component {
           <Text style={styles.titleText}>
           {this.state.titleText}{'\n'}{'\n'}{'\n'}
           </Text>
-          <Text style={styles.photoText}>
+          <Text style={styles.photoText} onPress={() => this.props.navigation.navigate('Camera')}>
           {this.state.photoText}{'\n'}{'\n'}{'\n'}
           </Text>
           <Text style={styles.galleryText}>
           {this.state.galleryText}{'\n'}{'\n'}
           </Text>
         </Text>
-        <Button
-          title="Go to Camera"
-          onPress={() => this.props.navigation.navigate('Camera')}
-        />
         <Image
         style={styles.icon_img}
         source={floralIcon} />
-
       </View>
     );
   }
