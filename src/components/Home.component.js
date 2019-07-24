@@ -11,22 +11,30 @@ export default class Home extends React.Component {
       photoText: 'take a photo',
       galleryText: 'choose from gallery'
     };
+    this.handlePressPhoto = this.handlePressPhoto.bind(this);
+  }
+
+  handlePressPhoto() {
+
   }
 
   render() {
-    const someLocalImage = require('../../assets/overlay_logo.png');
+    const logoImage = require('../../assets/overlay_logo.png');
+    const floralIcon = require('../../assets/element_24.png');
     const styles = StyleSheet.create({
       photoText: {
         fontFamily: 'Bodoni 72',
         textAlign: 'center',
+        fontSize: 20,
       },
       galleryText: {
         fontFamily: 'Bodoni 72',
         textAlign: 'center',
+        fontSize: 20,
       },
       titleText: {
         fontFamily: 'Bodoni 72',
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
       },
@@ -41,9 +49,17 @@ export default class Home extends React.Component {
         resizeMode: 'contain',
         flex: 1,
         position: 'absolute',
-        top: 15,
+        top: 25,
         width: 300,
         height: 200
+      },
+      icon_img: {
+        resizeMode: 'contain',
+        flex: 1,
+        position: 'absolute',
+        bottom: 35,
+        width: 100,
+        height: 100
       }
     });
 
@@ -51,24 +67,28 @@ export default class Home extends React.Component {
       <View style={styles.container}>
         <Image
         style={styles.logo_img}
-        source={someLocalImage} />
+        source={logoImage} />
         <Text style={styles.baseText}>
           <Text style={styles.titleText}>
-          {this.state.titleText}{'\n'}{'\n'}
+          {this.state.titleText}{'\n'}{'\n'}{'\n'}
           </Text>
-          <Text style={styles.photoText} onPress={this.onPressTitle}>
-          {this.state.photoText}{'\n'}{'\n'}
+          <Text style={styles.photoText}>
+          {this.state.photoText}{'\n'}{'\n'}{'\n'}
           </Text>
-          <Text style={styles.galleryText} onPress={this.onPressTitle}>
+          <Text style={styles.galleryText}>
           {this.state.galleryText}{'\n'}{'\n'}
           </Text>
         </Text>
+        <Image
+        style={styles.icon_img}
+        source={floralIcon} />
 
       </View>
     );
   }
 }
 
+// onPress={() => this.props.navigation.navigate('Camera')}
 
 // skip this line if using Create React Native App
 AppRegistry.registerComponent('Home', () => Home);
