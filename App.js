@@ -1,21 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 import CameraPage from './src/camera.page';
+import { Constants } from 'expo';
+import Home from './src/components/Home.component.js'
+
 
 class SplashScreen extends React.Component {
   render() {
-    const viewStyles = [styles.container, { backgroundColor: 'orange' }];
-    const textStyles = {
-      color: 'white',
-      fontSize: 40,
-      fontWeight: 'bold'
-    };
-
+    const someLocalImage = require('./assets/overlay.gif');
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // paddingTop: Constants.statusBarHeight,
+        backgroundColor: '#ecf0f1',
+      },
+    });
+    
     return (
-      <View style={viewStyles}>
-      <Text style={textStyles}>
-      Splash Screen
-      </Text>
+      <View style={styles.container}>
+      <Image
+      style={{width: 300, height: 200}}
+      source={someLocalImage} />
       </View>
     );
   }
@@ -26,7 +33,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isLoading: true }
+    this.state = { 
+      isLoading: true 
+    }
   }
 
 
@@ -56,7 +65,8 @@ render() {
   }
 
   return (
-    <CameraPage />
+    // <CameraPage />
+    <Home />
   );
 };
 };
