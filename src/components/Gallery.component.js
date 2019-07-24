@@ -1,14 +1,14 @@
 import React from 'react';
-import { ImageEditor, Button, Image, View } from 'react-native';
+import { Button, Image, View } from 'react-native';
 import { ImagePicker } from 'expo';
 
 export default class Gallery extends React.Component {
   state = {
-    image: null,
+    image: [],
   };
 
   render() {
-    let { image } = this.state;
+    // let { image } = this.state;
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -16,39 +16,37 @@ export default class Gallery extends React.Component {
           title="Pick an image from camera roll"
           onPress={this._pickImage}
         />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200, resizeMode: 'contain' }} />}
+        {this._renderImages()}
       </View>
     );
   }
+  _renderImages() {
+    let images = [];
+    //let remainder = 4 - (this.state.devices % 4);
+    this.state.image.map((item, index) => {
+      images.push(
+        <Image
+          key={index}
+          source={{ uri: item }}
+          style={{ width: 100, height: 100 }}
+        />
+      );
+    });
 
+    return images;
+  }
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
     });
 
-    if (result.cancelled) {
-      console.log('got here');
-      return;
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({
+        image: this.state.image.concat([result.uri]),
+      });
     }
-
-    let resizedUri = await new Promise((resolve, reject) => {
-      ImageEditor.cropImage(result.uri,
-        {
-          offset: { x: 0, y: 0 },
-          size: { width: result.width, height: result.height },
-          displaySize: { width: 50, height: 50 },
-          resizeMode: 'contain',
-        },
-        (uri) => resolve(uri),
-        () => reject(),
-      );
-    });
-
-    // this gives you a rct-image-store URI or a base64 image tag that
-    // you can use from ImageStore
-
-    this.setState({ image: resizedUri });
   };
 }
