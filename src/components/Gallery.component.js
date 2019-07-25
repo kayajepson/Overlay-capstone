@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Image, View } from 'react-native';
-import { ImagePicker } from 'expo';
+import { Constants, ImagePicker } from 'expo';
 
 export default class Gallery extends React.Component {
   state = {
@@ -39,6 +39,7 @@ export default class Gallery extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
+      base64: true
     });
 
     console.log(result);
@@ -47,6 +48,30 @@ export default class Gallery extends React.Component {
       this.setState({
         image: this.state.image.concat([result.uri]),
       });
+      let base64Img = `data:image/jpg;base64,${result.base64}`
+
+      //Add your cloud name
+      let apiUrl = 'https://api.cloudinary.com/v1_1/dzooqxmw2/image/upload';
+
+      let data = {
+        "file": base64Img,
+        "upload_preset": "hwlhaluq",
+      }
+
+      fetch(apiUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+      }).then(async r => {
+          let data = await r.json()
+          console.log(data.secure_url)
+          return data.secure_url
+      }).catch(err=>console.log(err))
+
+
+
     }
   };
 }
