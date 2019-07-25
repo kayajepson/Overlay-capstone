@@ -124,12 +124,14 @@ export default class CameraScreen extends React.Component {
 
   handleMountError = ({ message }) => console.error(message);
 
+//below is where i would add cloudinary upload i think. or have a stg and a upload
   onPictureSaved = async photo => {
     await FileSystem.moveAsync({
       from: photo.uri,
       to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
     });
     this.setState({ newPhotos: true });
+    this.toggleView();
   }
 
   onBarCodeScanned = code => {
@@ -173,6 +175,7 @@ export default class CameraScreen extends React.Component {
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
   }
+
 
   renderFace({ bounds, faceID, rollAngle, yawAngle }) {
     return (
