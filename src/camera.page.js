@@ -3,6 +3,7 @@ import {Image, Transformation, CloudinaryContext} from 'cloudinary-react';
 import React from 'react';
 import {
   Alert,
+  Dimensions,
   StyleSheet,
   Text,
   View,
@@ -75,6 +76,7 @@ export default class CameraScreen extends React.Component {
     showGallery: false,
     showMoreOptions: false,
     currentImage: null,
+    currentImageUri: 'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fcamerja-93bde40e-199a-459c-912f-e83afe20d7b9/Camera/23de1f9e-e28b-46a9-ab33-74950ae56bd8.jpg',
   };
 
   async componentWillMount() {
@@ -94,8 +96,6 @@ export default class CameraScreen extends React.Component {
   };
 
   toggleView = () => this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
-
-  // togglePreview = () => this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
 
   toggleMoreOptions = () => this.setState({ showMoreOptions: !this.state.showMoreOptions });
 
@@ -121,26 +121,53 @@ export default class CameraScreen extends React.Component {
 
   takePicture = () => {
     if (this.camera) {
-      this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
+      this.camera.takePictureAsync({ takePictureAndCreateAlbum: this.takePictureAndCreateAlbum });
     }
+    this.renderImage();
   };
+
 
 
   handleMountError = ({ message }) => console.error(message);
 
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
 
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
+  renderImage() {
+      return (
+        <View>
+          <Image
+            source={{
+              uri: this.state.currentImageUri,
+              isStatic:true,
+            }}
+            style={styles.preview}
+          />
+          <Text
+            style={styles.cancel}
+            onPress={() => this.setState({ currentImage: null })}
+          >Cancel
+          </Text>
+        </View>
+      );
     }
-  };
+
+
+    takePictureAndCreateAlbum = async () => {
+        const { uri } = await camera.takePictureAsync();
+        const asset = await MediaLibrary.createAssetAsync(uri);
+        MediaLibrary.createAlbumAsync('Expo', asset)
+          .then(() => {
+            console.log('Album created!');
+          })
+          .catch(error => {
+            console.log('err', error);
+          });
+          this.setState({ newPhotos: true });
+          console.log(photo);
+          console.log("photo");
+          this.setState({ currentImage: photo.uri });
+          this.setState({ currentImageUri: photo.uri });
+      }
+
 
   onPictureSaved = async photo => {
     await FileSystem.moveAsync({
@@ -148,8 +175,11 @@ export default class CameraScreen extends React.Component {
       to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
     });
     this.setState({ newPhotos: true });
-    this._pickImage();
-    // this.toggleView();
+    console.log(photo);
+    console.log("photo");
+    this.setState({ currentImage: photo.uri });
+    this.setState({ currentImageUri: photo.uri });
+
   }
 
   onBarCodeScanned = code => {
@@ -192,16 +222,6 @@ export default class CameraScreen extends React.Component {
 
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
-  }
-
-  renderImagePreview() {
-      let { currentImage } = this.state.currentImage;
-      <View>
-        <Image
-          style={{width: 66, height: 58}}
-          source={{uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='}}
-        />
-      </View>
   }
 
 
@@ -393,6 +413,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width
   },
   camera: {
     flex: 1,
