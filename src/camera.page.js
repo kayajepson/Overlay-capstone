@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import GalleryScreen from '../GalleryScreen';
 import isIPhoneX from 'react-native-is-iphonex';
-
+import * as ImagePicker from 'expo-image-picker';
 import {
   Ionicons,
   MaterialIcons,
@@ -74,6 +74,7 @@ export default class CameraScreen extends React.Component {
     pictureSizeId: 0,
     showGallery: false,
     showMoreOptions: false,
+    currentImage: null,
   };
 
   async componentWillMount() {
@@ -93,6 +94,8 @@ export default class CameraScreen extends React.Component {
   };
 
   toggleView = () => this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
+
+  // togglePreview = () => this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
 
   toggleMoreOptions = () => this.setState({ showMoreOptions: !this.state.showMoreOptions });
 
@@ -122,16 +125,31 @@ export default class CameraScreen extends React.Component {
     }
   };
 
+
   handleMountError = ({ message }) => console.error(message);
 
-//below is where i would add cloudinary upload i think. or have a stg and a upload
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+
   onPictureSaved = async photo => {
     await FileSystem.moveAsync({
       from: photo.uri,
       to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
     });
     this.setState({ newPhotos: true });
-    this.toggleView();
+    this._pickImage();
+    // this.toggleView();
   }
 
   onBarCodeScanned = code => {
@@ -174,6 +192,16 @@ export default class CameraScreen extends React.Component {
 
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
+  }
+
+  renderImagePreview() {
+      let { currentImage } = this.state.currentImage;
+      <View>
+        <Image
+          style={{width: 66, height: 58}}
+          source={{uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='}}
+        />
+      </View>
   }
 
 
