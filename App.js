@@ -5,11 +5,11 @@ import { Constants } from 'expo';
 import Home from './src/components/Home.component.js';
 import { createDrawerNavigator, createAppContainer } from "react-navigation";
 import Gallery from './src/components/Gallery.component.js';
-
+import BackgroundMenu from './src/components/BackgroundMenu.js';
 
 class SplashScreen extends React.Component {
   render() {
-    const someLocalImage = require('./assets/overlay.gif');
+    const someLocalImage = require('./assets/overlay_slide.gif');
     const styles = StyleSheet.create({
       container: {
         flex: 1,
@@ -68,7 +68,7 @@ render() {
 
   return (
     // <CameraPage />
-     <AppContainer />
+    <AppContainer />
   );
 };
 };
@@ -82,13 +82,16 @@ const AppNavigator = createDrawerNavigator({
   },
   Gallery: {
     screen: Gallery
+  },
+  Background: {
+    screen: BackgroundMenu
   }
 }, {
-    initialRouteName: "Home",
-    contentOptions: {
-      activeTintColor: '#e91e63'
-    }
-  });
+  initialRouteName: "Home",
+  contentOptions: {
+    activeTintColor: '#e91e63'
+  }
+});
 
 const AppContainer = createAppContainer(AppNavigator);
 

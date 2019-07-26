@@ -19,7 +19,13 @@ export default class Gallery extends React.Component {
         {this._renderImages()}
       </View>
     );
+
   }
+
+  _returnToMenu() {
+
+  }
+
   _renderImages() {
     let images = [];
     //let remainder = 4 - (this.state.devices % 4);
@@ -69,9 +75,8 @@ export default class Gallery extends React.Component {
           console.log(data.secure_url)
           return data.secure_url
       }).catch(err=>console.log(err))
-
-
-
     }
   };
+
+  //to remove background, change setting in cloudinary to auto remove on upload.
 }

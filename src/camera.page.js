@@ -79,13 +79,14 @@ export default class CameraScreen extends React.Component {
     currentImageUri: 'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fcamerja-93bde40e-199a-459c-912f-e83afe20d7b9/Camera/23de1f9e-e28b-46a9-ab33-74950ae56bd8.jpg',
   };
 
+
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ permissionsGranted: status === 'granted' });
   }
 
   componentDidMount() {
-    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
+    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'overlay').catch(e => {
       console.log(e, 'Directory exists');
     });
   }
@@ -119,26 +120,22 @@ export default class CameraScreen extends React.Component {
 
   toggleFaceDetection = () => this.setState({ faceDetecting: !this.state.faceDetecting });
 
-  takePicture = () => {
+  takePicture = async () => {
     if (this.camera) {
-      this.camera.takePictureAsync({ takePictureAndCreateAlbum: this.takePictureAndCreateAlbum });
+      await this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
     }
     this.renderImage();
   };
-
-
 
   handleMountError = ({ message }) => console.error(message);
 
 
   renderImage() {
+    console.log("bing");
       return (
         <View>
           <Image
-            source={{
-              uri: this.state.currentImageUri,
-              isStatic:true,
-            }}
+            source={this.currentImage.uri}
             style={styles.preview}
           />
           <Text
@@ -161,11 +158,7 @@ export default class CameraScreen extends React.Component {
           .catch(error => {
             console.log('err', error);
           });
-          this.setState({ newPhotos: true });
-          console.log(photo);
-          console.log("photo");
-          this.setState({ currentImage: photo.uri });
-          this.setState({ currentImageUri: photo.uri });
+        this.onPictureSaved();
       }
 
 
@@ -177,9 +170,8 @@ export default class CameraScreen extends React.Component {
     this.setState({ newPhotos: true });
     console.log(photo);
     console.log("photo");
-    this.setState({ currentImage: photo.uri });
+    this.setState({ currentImage: photo });
     this.setState({ currentImageUri: photo.uri });
-
   }
 
   onBarCodeScanned = code => {
