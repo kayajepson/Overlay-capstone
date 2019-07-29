@@ -5,7 +5,7 @@ import CameraPage from '../camera.page';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {Platform} from 'react-native';
 
-export default class Home extends React.Component {
+export default class Background extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -125,4 +125,4 @@ export default class Home extends React.Component {
 // onPress={() => this.props.navigation.navigate('Camera')}
 
 // skip this line if using Create React Native App
-AppRegistry.registerComponent('Home', () => Home);
+AppRegistry.registerComponent('Background', () => Background);

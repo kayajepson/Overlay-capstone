@@ -5,7 +5,7 @@ import { Constants } from 'expo';
 import Home from './src/components/Home.component.js';
 import { createDrawerNavigator, createAppContainer } from "react-navigation";
 import Gallery from './src/components/Gallery.component.js';
-import BackgroundMenu from './src/components/BackgroundMenu.js';
+import Background from './src/components/BackgroundMenu.component.js';
 
 class SplashScreen extends React.Component {
   render() {
@@ -84,7 +84,7 @@ const AppNavigator = createDrawerNavigator({
     screen: Gallery
   },
   Background: {
-    screen: BackgroundMenu
+    screen: Background
   }
 }, {
   initialRouteName: "Home",

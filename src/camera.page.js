@@ -81,15 +81,15 @@ export default class CameraScreen extends React.Component {
 
 
   async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ permissionsGranted: status === 'granted' });
-  }
+  const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  this.setState({ permissionsGranted: status === 'granted' });
+}
 
-  componentDidMount() {
-    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'overlay').catch(e => {
-      console.log(e, 'Directory exists');
-    });
-  }
+componentDidMount() {
+  FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
+    console.log(e, 'Directory exists');
+  });
+}
 
   getRatios = async () => {
     const ratios = await this.camera.getSupportedRatios();
@@ -124,7 +124,7 @@ export default class CameraScreen extends React.Component {
     if (this.camera) {
       await this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
     }
-    this.renderImage();
+    // this.renderImage();
   };
 
   handleMountError = ({ message }) => console.error(message);
@@ -135,7 +135,7 @@ export default class CameraScreen extends React.Component {
       return (
         <View>
           <Image
-            source={this.currentImage.uri}
+            source={this.currentImageUri}
             style={styles.preview}
           />
           <Text
@@ -158,7 +158,7 @@ export default class CameraScreen extends React.Component {
           .catch(error => {
             console.log('err', error);
           });
-        this.onPictureSaved();
+        this.renderImage();
       }
 
 
