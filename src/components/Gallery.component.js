@@ -1,10 +1,13 @@
 import React from 'react';
 import { Button, Image, View } from 'react-native';
 import { Constants, ImagePicker } from 'expo';
+// import DisplayAnImage from './DisplayAnImage.component.js';
+
 
 export default class Gallery extends React.Component {
   state = {
     image: [],
+    // photoUrl: null,
   };
 
   render() {
@@ -22,8 +25,27 @@ export default class Gallery extends React.Component {
 
   }
 
+  propsUpdated() {
+    console.log(this.state);
+  }
+
   _returnToMenu() {
 
+  }
+
+  showImageAfterBackgroundRemoval(photoUrl){
+    this.props.navigation.navigate('DisplayAnImage', {
+    photoUrl: photoUrl
+    })
+  //   <View>
+  //   <Image
+  //     style={{ width: 66, height: 58 }}
+  //     source={{
+  //       uri:
+  //         '${photoUrl}',
+  //     }}
+  //   />
+  // </View>
   }
 
   _renderImages() {
@@ -41,6 +63,7 @@ export default class Gallery extends React.Component {
 
     return images;
   }
+
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -48,7 +71,7 @@ export default class Gallery extends React.Component {
       base64: true
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
       this.setState({
@@ -72,10 +95,14 @@ export default class Gallery extends React.Component {
         method: 'POST',
       }).then(async r => {
           let data = await r.json()
-          console.log(data.secure_url)
+          console.log("url", data.secure_url)
+          const dataUrl = data.secure_url;
+          this.setState({photoUrl : data.secure_url});
+          this.showImageAfterBackgroundRemoval(dataUrl);
           return data.secure_url
       }).catch(err=>console.log(err))
     }
+
   };
 
   //to remove background, change setting in cloudinary to auto remove on upload.
