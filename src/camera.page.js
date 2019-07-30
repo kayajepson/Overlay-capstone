@@ -76,7 +76,7 @@ export default class CameraScreen extends React.Component {
     showGallery: false,
     showMoreOptions: false,
     currentImage: null,
-    currentImageUri: 'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fcamerja-93bde40e-199a-459c-912f-e83afe20d7b9/Camera/23de1f9e-e28b-46a9-ab33-74950ae56bd8.jpg',
+    currentImageUri: null,
   };
 
 
@@ -85,24 +85,24 @@ export default class CameraScreen extends React.Component {
     this.setState({ permissionsGranted: status === 'granted' });
   }
 
-  // componentDidMount() {
-    //   FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
-      //     console.log(e, 'Directory exists');
-      //   });
-      // }
-
-    async componentDidMount() {
-      try {
-        await FileSystem.makeDirectoryAsync(
-          FileSystem.documentDirectory + 'photos',
-          {
-            intermediates: true,
-          }
-        )
-      } catch (e) {
-        console.log(e)
+  componentDidMount() {
+      FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
+          console.log(e, 'Directory exists');
+        });
       }
-    }
+
+    // async componentDidMount() {
+    //   try {
+    //     await FileSystem.makeDirectoryAsync(
+    //       FileSystem.documentDirectory + 'photos',
+    //       {
+    //         intermediates: true,
+    //       }
+    //     )
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
 
       getRatios = async () => {
         const ratios = await this.camera.getSupportedRatios();
@@ -134,7 +134,7 @@ export default class CameraScreen extends React.Component {
       toggleFaceDetection = () => this.setState({ faceDetecting: !this.state.faceDetecting });
 
       propsUpdated() {
-        console.log(this.state);
+        console.log("props", this.state);
       }
 
       takePicture = async () => {
@@ -145,26 +145,35 @@ export default class CameraScreen extends React.Component {
 
       handleMountError = ({ message }) => console.error(message);
 
-
-      renderImage() {
-        this.camera.stopPreview();
-        console.log("2bing");
+      showImageAfterBackgroundRemoval(photoUrl){
         this.propsUpdated();
-        console.log("3", this.currentImageUri);
-        return (
-          <View>
-            <Image
-            source={{uri:"'" + this.state.currentImageUri + "'"}}
-            style={{flex: 1, width: 100, height: 100}}
-            />
-            <Text
-            style={styles.cancel}
-            onPress={() => this.setState({ currentImage: null })}
-            >Cancel
-            </Text>
-          </View>
-        );
+        return this.props.navigation.navigate('DisplayAnImage', {
+          photoUrl: photoUrl
+        })
       }
+
+
+      // renderImage() {
+      //   console.log("2bing");
+      //   this.propsUpdated();
+      //   console.log("3", this.currentImageUri);
+      //   return (
+      //     <View>
+      //     <Text>
+      //     Hello
+      //     </Text>
+      //       <Image
+      //       source={{uri:this.state.currentImageUri}}
+      //       style={{flex: 1, width: 100, height: 100}}
+      //       />
+      //       <Text
+      //       style={styles.cancel}
+      //       onPress={() => this.setState({ currentImage: null })}
+      //       >Cancel
+      //       </Text>
+      //     </View>
+      //   );
+      // }
 
       showImage(){
         <View>
@@ -194,17 +203,20 @@ export default class CameraScreen extends React.Component {
 
 
       onPictureSaved = async photo => {
-        await FileSystem.moveAsync({
-          from: photo.uri,
-          to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
-        });
+        // let destination = `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`
+        // await FileSystem.moveAsync({
+        //   from: photo.uri,
+        //   to: destination,
+        // });
+
         this.setState({ newPhotos: true });
         console.log(photo);
         console.log("1photo");
         console.log("photo.uri", photo.uri);
-        this.setState({ currentImage: photo.uri });
+        this.setState({ currentImage: photo });
         this.setState({ currentImageUri: photo.uri });
-        this.renderImage();
+        this.showImageAfterBackgroundRemoval(this.state.currentImage);
+        // this.renderImage();
       }
 
       onBarCodeScanned = code => {
@@ -426,11 +438,21 @@ export default class CameraScreen extends React.Component {
       );
 
       render() {
-        const cameraScreenContent = this.state.permissionsGranted
-        ? this.renderCamera()
-        : this.renderNoPermissions();
-        const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
-        return <View style={styles.container}>{content}</View>;
+        if (this.state.currentImage) {
+          //display photo
+          return this.showImageAfterBackgroundRemoval(this.state.currentImageUri);
+        } else {
+          //gimme camera
+          let content = this.state.permissionsGranted
+          ? this.renderCamera()
+          : this.renderNoPermissions();
+          return <View style={styles.container}>{content}</View>;
+        }
+        // const cameraScreenContent = this.state.permissionsGranted
+        // ? this.renderCamera()
+        // : this.renderNoPermissions();
+        // const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
+
       }
     }
 

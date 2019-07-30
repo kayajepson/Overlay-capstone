@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Text, Dimensions} from 'react-native';
 import {Platform} from 'react-native';
 
 export default function DisplayAnImage(photoUrl) {
+  console.log("displsdfsdfay", photoUrl);
   const logoImage = require('../../assets/overlay_logo.png');
   console.log("display", photoUrl);
   return (
