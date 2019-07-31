@@ -55,6 +55,7 @@ export default class Gallery extends React.Component {
         <Button
           title="Pick an image from camera roll"
           onPress={this._pickImage}
+          color="#c9a5b4"
         />
         {this._renderImages()}
       </View>
@@ -66,23 +67,10 @@ export default class Gallery extends React.Component {
     console.log(this.state);
   }
 
-  _returnToMenu() {
-
-  }
-
   showImageAfterBackgroundRemoval(photoUrl){
     this.props.navigation.navigate('DisplayAnImage', {
     photoUrl: photoUrl
     })
-  //   <View>
-  //   <Image
-  //     style={{ width: 66, height: 58 }}
-  //     source={{
-  //       uri:
-  //         '${photoUrl}',
-  //     }}
-  //   />
-  // </View>
   }
 
   _renderImages() {
@@ -134,7 +122,7 @@ export default class Gallery extends React.Component {
           let data = await r.json()
           console.log("url", data.secure_url)
           const dataUrl = data.secure_url;
-          this.setState({photoUrl : data.secure_url});
+          // this.setState({photoUrl : data.secure_url});
           this.showImageAfterBackgroundRemoval(dataUrl);
           return data.secure_url
       }).catch(err=>console.log(err))

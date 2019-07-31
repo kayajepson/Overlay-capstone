@@ -175,31 +175,31 @@ export default class CameraScreen extends React.Component {
       //   );
       // }
 
-      showImage(){
-        <View>
-        <Image
-          style={{ width: 66, height: 58 }}
-          source={{
-            uri:
-              '${this.currentImageUri}',
-          }}
-        />
-      </View>
-      }
+      // showImage(){
+      //   <View>
+      //   <Image
+      //     style={{ width: 66, height: 58 }}
+      //     source={{
+      //       uri:
+      //         '${this.currentImageUri}',
+      //     }}
+      //   />
+      // </View>
+      // }
 
 
-      takePictureAndCreateAlbum = async () => {
-        const { uri } = await camera.takePictureAsync();
-        const asset = await MediaLibrary.createAssetAsync(uri);
-        MediaLibrary.createAlbumAsync('Expo', asset)
-        .then(() => {
-          console.log('Album created!');
-        })
-        .catch(error => {
-          console.log('err', error);
-        });
-        this.renderImage();
-      }
+      // takePictureAndCreateAlbum = async () => {
+      //   const { uri } = await camera.takePictureAsync();
+      //   const asset = await MediaLibrary.createAssetAsync(uri);
+      //   MediaLibrary.createAlbumAsync('Expo', asset)
+      //   .then(() => {
+      //     console.log('Album created!');
+      //   })
+      //   .catch(error => {
+      //     console.log('err', error);
+      //   });
+      //   this.renderImage();
+      // }
 
 
       onPictureSaved = async photo => {
