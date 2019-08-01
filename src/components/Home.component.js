@@ -167,7 +167,7 @@ export default class Home extends React.Component {
           // </Text>
           </Text>
           <Button
-            title="Pick an image from camera roll"
+            title="Pick an image from gallery"
             onPress={this._pickImage}
             color="#c9a5b4"
           />

@@ -23,7 +23,7 @@ export default class Background extends React.Component {
 
   render() {
     const logoImage = require('../../assets/overlay_logo.png');
-    const floralIcon = require('../../assets/element_24.png');
+    const floralIcon = require('../../assets/logo_img_sm.png');
     const styles = StyleSheet.create({
       photoText: {
         ...Platform.select({

@@ -139,16 +139,19 @@ export default class CameraScreen extends React.Component {
 
       takePicture = async () => {
         if (this.camera) {
-          await this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
+          await this.camera.takePictureAsync({
+            onPictureSaved: this.onPictureSaved,
+            base64: true
+          });
         }
       };
 
       handleMountError = ({ message }) => console.error(message);
 
-      showImageAfterBackgroundRemoval(photoUrl){
-        this.propsUpdated();
+      showImageAfterBackgroundRemoval(){
         return this.props.navigation.navigate('DisplayAnImage', {
-          photoUrl: photoUrl
+          photoUrl: this.state.currentImageUri,
+          base64: this.state.currentImage.base64
         })
       }
 
@@ -203,20 +206,11 @@ export default class CameraScreen extends React.Component {
 
 
       onPictureSaved = async photo => {
-        // let destination = `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`
-        // await FileSystem.moveAsync({
-        //   from: photo.uri,
-        //   to: destination,
-        // });
-
-        this.setState({ newPhotos: true });
-        console.log(photo);
-        console.log("1photo");
-        console.log("photo.uri", photo.uri);
-        this.setState({ currentImage: photo });
-        this.setState({ currentImageUri: photo.uri });
-        this.showImageAfterBackgroundRemoval(this.state.currentImage);
-        // this.renderImage();
+        this.setState({
+          currentImageUri: photo.uri,
+          currentImage: photo,
+          newPhotos: true
+        });
       }
 
       onBarCodeScanned = code => {
@@ -440,7 +434,7 @@ export default class CameraScreen extends React.Component {
       render() {
         if (this.state.currentImage) {
           //display photo
-          return this.showImageAfterBackgroundRemoval(this.state.currentImageUri);
+          return this.showImageAfterBackgroundRemoval();
         } else {
           //gimme camera
           let content = this.state.permissionsGranted

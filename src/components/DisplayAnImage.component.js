@@ -4,56 +4,45 @@ import {Platform} from 'react-native';
 
 export default class DisplayAnImage extends React.Component {
   constructor(props) {
+    console.log("HERE", props);
     super(props);
-
     this.state = {
       // isLoading: true,
+      photoUrl: props.navigation.state.params.photoUrl,
+      imageData: props.navigation.state.params.base64,
       image:[],
     }
+    this._pickImage = this._pickImage.bind(this);
   }
 
 
-  // _pickImage {
-  //   let result = props.photoUrl.navigation.state.params.photoUrl;
-  //   // let result = await ImagePicker.launchImageLibraryAsync({
-  //   //   allowsEditing: true,
-  //   //   aspect: [4, 3],
-  //   //   base64: true
-  //   // });
-  //   //
-  //   // // console.log(result);
-  //   //
-  //   // if (!result.cancelled) {
-  //     this.setState({
-  //       image: this.state.image.concat([result.uri]),
-  //     });
-  //     let base64Img = `data:image/jpg;base64,${result.base64}`
-  //
-  //     //Add your cloud name
-  //     let apiUrl = 'https://api.cloudinary.com/v1_1/dzooqxmw2/image/upload';
-  //
-  //     let data = {
-  //       "file": base64Img,
-  //       "upload_preset": "hwlhaluq",
-  //     }
-  //
-  //     fetch(apiUrl, {
-  //       body: JSON.stringify(data),
-  //       headers: {
-  //         'content-type': 'application/json'
-  //       },
-  //       method: 'POST',
-  //     }).then(async r => {
-  //         let data = await r.json()
-  //         const dataUrl = data.secure_url;
-  //         this.setState({photoUrl : data.secure_url});
-  //         this.showImageAfterBackgroundRemoval(dataUrl);
-  //         return data.secure_url
-  //     }).catch(err=>console.log(err))
-  //   }
-  // const logoImage = require('../../assets/overlay_logo.png');
+  _pickImage() {
+    let base64Img = `data:image/jpg;base64,${this.state.imageData}`
+
+    //Add your cloud name
+    let apiUrl = 'https://api.cloudinary.com/v1_1/dzooqxmw2/image/upload';
+
+    let data = {
+      "file": base64Img,
+      "upload_preset": "hwlhaluq",
+    }
+
+    fetch(apiUrl, {
+      body: JSON.stringify(data),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+    }).then(async r => {
+        let data = await r.json()
+        const dataUrl = data.secure_url;
+        this.setState({photoUrl : data.secure_url});
+        this.showImageAfterBackgroundRemoval(dataUrl);
+        return data.secure_url
+    }).catch(err=>console.log(err))
+  }
   render() {
-    console.log("img props", props);
+    const logoImage = require('../../assets/overlay_logo.png');
     return (
       <View style={styles.container}>
       <Image
@@ -63,10 +52,10 @@ export default class DisplayAnImage extends React.Component {
       // style={styles.image}
       style={{ width: 300, height: 500 }}
       source={{
-        uri: photoUrl.navigation.state.params.photoUrl,
+        uri: this.state.photoUrl,
       }}
       />
-      <Text style={styles.uploadText} onPress={() => this._pickImage}>
+      <Text style={styles.uploadText} onPress={() => this._pickImage()}>
       UPLOAD
       {'\n'}{'\n'}{'\n'}
       </Text>
