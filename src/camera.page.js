@@ -359,13 +359,11 @@ export default class CameraScreen extends React.Component {
 
       render() {
         if (this.state.currentImage) {
-          //display photo
           return this.props.navigation.navigate('DisplayAnImage', {
             photoUrl: this.state.currentImageUri,
             base64: this.state.currentImage.base64
           })
         } else {
-          //gimme camera
           let content = this.state.permissionsGranted
           ? this.renderCamera()
           : this.renderNoPermissions();

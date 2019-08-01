@@ -1,7 +1,7 @@
 //https://snack.expo.io/@jhalborg/sticker-example
 
 import * as React from 'react';
-import { Animated, StyleSheet, View, Image } from 'react-native';
+import { Animated, StyleSheet, View, Image, ImageBackground, Dimensions } from 'react-native';
 
 import { PanGestureHandler, PinchGestureHandler, RotationGestureHandler, State } from 'react-native-gesture-handler';
 
@@ -102,12 +102,16 @@ export class Sticker extends React.Component {
   render() {
     const translateX = this.translateX;
     const translateY = this.translateY;
+    const logoImage = require('../../assets/logo.png');
+    const floralIcon = require('../../assets/logo_img_sm.png');
     const panStyle = {
       transform: [{ translateX }, { translateY }],
     };
     return (
-      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-        <Image source={{uri: 'https://images.pexels.com/photos/2082087/pexels-photo-2082087.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'}} style={styles.backgroundImage}/>
+      <View style={{justifyContent: 'center', flexDirection: 'column', alignItems: 'center', flex: 1}}>
+        <ImageBackground source={{uri: 'https://images.pexels.com/photos/2082087/pexels-photo-2082087.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'}} style={styles.backgroundImage}>
+        <Image style={styles.logo_img} source={logoImage} />
+        </ImageBackground>
 
         <PanGestureHandler
           {...this.props}
@@ -173,11 +177,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   backgroundImage: {
-    height: imageSize,
-    width: imageSize
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    flex: 5,
   },
   pinchableImage: {
     width: 250,
     height: 250,
   },
+  logo_img: {
+    resizeMode: 'contain',
+    flex: 1,
+    width: 300,
+    height: 200,
+    left: '10%',
+    position: 'absolute'
+  }
 });

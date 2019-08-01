@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Dimensions} from 'react-native';
+import { Button, StyleSheet, View, Image, Text, Dimensions} from 'react-native';
 import {Platform} from 'react-native';
 
 export default class DisplayAnImage extends React.Component {
@@ -38,27 +38,36 @@ export default class DisplayAnImage extends React.Component {
     }).catch(err=>console.log(err))
   }
   render() {
-    const logoImage = require('../../assets/overlay_logo.png');
+    const logoImage = require('../../assets/logo.png');
     return (
       <View style={styles.container}>
-      <Image
-      style={styles.logo_img}
-      source={logoImage} />
-      <Image
-      // style={styles.image}
-      style={{ width: 300, height: 500 }}
-      source={{
-        uri: this.state.photoUrl,
-      }}
-      />
-      <Text style={styles.uploadText} onPress={() => this._pickImage()}>
-      UPLOAD
-      {'\n'}{'\n'}{'\n'}
-      </Text>
-      <Text style={styles.retakeText} onPress={() => this.props.navigation.navigate('Camera')}>
-      RETAKE
-      {'\n'}{'\n'}
-      </Text>
+          <Image
+          style={styles.logo_img}
+          source={logoImage} />
+          <Image
+          style={styles.image, { width: 300, height: 400 }}
+          source={{
+            uri: this.state.photoUrl,
+          }}
+          />
+          <View style={styles.buttonContainer}>
+          <View style={{margin:10}}>
+          <Button
+          onPress={() => this._pickImage()}
+          title="continue"
+          color="#b897af"
+          style={styles.buttons}
+          />
+          </View>
+          <View style={{margin:10}}>
+          <Button
+          onPress={() => this.props.navigation.navigate('Camera')}
+          title="retake"
+          color="#b897af"
+          style={styles.buttons}
+          />
+          </View>
+        </View>
       </View>
     );
   }
@@ -91,6 +100,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
+  buttons: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    flexDirection: 'column',
+    marginLeft: '10px',
+    padding: '10',
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   titleText: {
       ...Platform.select({
         ios: {
@@ -108,10 +133,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    backgroundColor: '#ffffff',
   },
   image: {
-    flex: 4,
+    flex: 3,
     width: 300,
     height: null,
     resizeMode: 'contain',
@@ -134,7 +160,7 @@ const styles = StyleSheet.create({
   logo_img: {
     resizeMode: 'contain',
     flex: 1,
-    position: 'absolute',
+    // position: 'absolute',
     width: 300,
     height: 200
   }
