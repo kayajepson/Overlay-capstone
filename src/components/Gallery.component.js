@@ -1,32 +1,7 @@
 import React from 'react';
 import { StyleSheet, Button, Image, View } from 'react-native';
 import { Constants, ImagePicker } from 'expo';
-// import DisplayAnImage from './DisplayAnImage.component.js';
-
-// class SplashScreen extends React.Component {
-//   render() {
-//     const someLocalImage = require('../../assets/overlay_slide.gif');
-//     const styles = StyleSheet.create({
-//       container: {
-//         flex: 1,
-//         resizeMode: 'contain',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         // paddingTop: Constants.statusBarHeight,
-//         backgroundColor: '#ecf0f1',
-//       },
-//     });
-//
-//     return (
-//       <View style={styles.container}>
-//       <Image
-//       style={{width: 300, height: 200}}
-//       source={someLocalImage} />
-//       </View>
-//     );
-//   }
-// }
-
+import styles from '../../assets/styles'
 
 export default class Gallery extends React.Component {
   constructor(props) {
@@ -38,33 +13,29 @@ export default class Gallery extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this._pickImage()
+  }
+
   // state = {
   //   image: [],
   //   // photoUrl: null,
   // };
 
   render() {
-    // if (this.state.isLoading) {
-    //   return <SplashScreen />;
-    // }
-    // let { image } = this.state;
-
-
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-          color="#c9a5b4"
-        />
+    const splashImage = require('../../assets/overlay_slide.gif');
+    if (this.state.image.length === 0) {
+      return (<View>
+        <Image
+        style={styles.container}
+        source={splashImage} />
+      </View>)
+    }
+    return (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {this._renderImages()}
       </View>
     );
 
-  }
-
-  propsUpdated() {
-    console.log(this.state);
   }
 
   showImageAfterBackgroundRemoval(photoUrl){
