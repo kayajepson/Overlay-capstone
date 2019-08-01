@@ -8,7 +8,6 @@ export default class Gallery extends React.Component {
     super(props);
 
     this.state = {
-      // isLoading: true,
       image:[],
     }
   }
@@ -17,31 +16,11 @@ export default class Gallery extends React.Component {
     this._pickImage()
   }
 
-  // state = {
-  //   image: [],
-  //   // photoUrl: null,
-  // };
-
   render() {
-    const splashImage = require('../../assets/overlay_slide.gif');
-    if (this.state.image.length === 0) {
-      return (<View>
-        <Image
-        style={styles.container}
-        source={splashImage} />
-      </View>)
-    }
     return (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {this._renderImages()}
       </View>
     );
-
-  }
-
-  showImageAfterBackgroundRemoval(photoUrl){
-    this.props.navigation.navigate('DisplayAnImage', {
-    photoUrl: photoUrl
-    })
   }
 
   _renderImages() {
@@ -91,11 +70,9 @@ export default class Gallery extends React.Component {
         method: 'POST',
       }).then(async r => {
           let data = await r.json()
-          console.log("url", data.secure_url)
-          const dataUrl = data.secure_url;
-          // this.setState({photoUrl : data.secure_url});
-          this.showImageAfterBackgroundRemoval(dataUrl);
-          return data.secure_url
+          this.props.navigation.navigate('Overlay', {
+            photoUrl: data.secure_url
+          })
       }).catch(err=>console.log(err))
     }
 

@@ -91,19 +91,6 @@ export default class CameraScreen extends React.Component {
         });
       }
 
-    // async componentDidMount() {
-    //   try {
-    //     await FileSystem.makeDirectoryAsync(
-    //       FileSystem.documentDirectory + 'photos',
-    //       {
-    //         intermediates: true,
-    //       }
-    //     )
-    //   } catch (e) {
-    //     console.log(e)
-    //   }
-    // }
-
       getRatios = async () => {
         const ratios = await this.camera.getSupportedRatios();
         return ratios;
@@ -133,10 +120,6 @@ export default class CameraScreen extends React.Component {
 
       toggleFaceDetection = () => this.setState({ faceDetecting: !this.state.faceDetecting });
 
-      propsUpdated() {
-        console.log("props", this.state);
-      }
-
       takePicture = async () => {
         if (this.camera) {
           await this.camera.takePictureAsync({
@@ -147,63 +130,6 @@ export default class CameraScreen extends React.Component {
       };
 
       handleMountError = ({ message }) => console.error(message);
-
-      showImageAfterBackgroundRemoval(){
-        return this.props.navigation.navigate('DisplayAnImage', {
-          photoUrl: this.state.currentImageUri,
-          base64: this.state.currentImage.base64
-        })
-      }
-
-
-      // renderImage() {
-      //   console.log("2bing");
-      //   this.propsUpdated();
-      //   console.log("3", this.currentImageUri);
-      //   return (
-      //     <View>
-      //     <Text>
-      //     Hello
-      //     </Text>
-      //       <Image
-      //       source={{uri:this.state.currentImageUri}}
-      //       style={{flex: 1, width: 100, height: 100}}
-      //       />
-      //       <Text
-      //       style={styles.cancel}
-      //       onPress={() => this.setState({ currentImage: null })}
-      //       >Cancel
-      //       </Text>
-      //     </View>
-      //   );
-      // }
-
-      // showImage(){
-      //   <View>
-      //   <Image
-      //     style={{ width: 66, height: 58 }}
-      //     source={{
-      //       uri:
-      //         '${this.currentImageUri}',
-      //     }}
-      //   />
-      // </View>
-      // }
-
-
-      // takePictureAndCreateAlbum = async () => {
-      //   const { uri } = await camera.takePictureAsync();
-      //   const asset = await MediaLibrary.createAssetAsync(uri);
-      //   MediaLibrary.createAlbumAsync('Expo', asset)
-      //   .then(() => {
-      //     console.log('Album created!');
-      //   })
-      //   .catch(error => {
-      //     console.log('err', error);
-      //   });
-      //   this.renderImage();
-      // }
-
 
       onPictureSaved = async photo => {
         this.setState({
@@ -434,7 +360,10 @@ export default class CameraScreen extends React.Component {
       render() {
         if (this.state.currentImage) {
           //display photo
-          return this.showImageAfterBackgroundRemoval();
+          return this.props.navigation.navigate('DisplayAnImage', {
+            photoUrl: this.state.currentImageUri,
+            base64: this.state.currentImage.base64
+          })
         } else {
           //gimme camera
           let content = this.state.permissionsGranted
@@ -442,11 +371,6 @@ export default class CameraScreen extends React.Component {
           : this.renderNoPermissions();
           return <View style={styles.container}>{content}</View>;
         }
-        // const cameraScreenContent = this.state.permissionsGranted
-        // ? this.renderCamera()
-        // : this.renderNoPermissions();
-        // const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
-
       }
     }
 

@@ -4,15 +4,12 @@ import {Platform} from 'react-native';
 
 export default class DisplayAnImage extends React.Component {
   constructor(props) {
-    console.log("HERE", props);
     super(props);
     this.state = {
       // isLoading: true,
       photoUrl: props.navigation.state.params.photoUrl,
       imageData: props.navigation.state.params.base64,
-      image:[],
     }
-    this._pickImage = this._pickImage.bind(this);
   }
 
 
@@ -34,11 +31,10 @@ export default class DisplayAnImage extends React.Component {
       },
       method: 'POST',
     }).then(async r => {
-        let data = await r.json()
-        const dataUrl = data.secure_url;
-        this.setState({photoUrl : data.secure_url});
-        this.showImageAfterBackgroundRemoval(dataUrl);
-        return data.secure_url
+      let data = await r.json()
+      this.props.navigation.navigate('Overlay', {
+        photoUrl: data.secure_url
+      })
     }).catch(err=>console.log(err))
   }
   render() {

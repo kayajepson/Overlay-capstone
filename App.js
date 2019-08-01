@@ -7,7 +7,7 @@ import { createDrawerNavigator, createAppContainer } from "react-navigation";
 import Gallery from './src/components/Gallery.component.js';
 import Background from './src/components/BackgroundMenu.component.js';
 import DisplayAnImage from './src/components/DisplayAnImage.component.js';
-
+import Overlay from './src/components/Overlay.component.js';
 
 class SplashScreen extends React.Component {
   render() {
@@ -90,6 +90,9 @@ const AppNavigator = createDrawerNavigator({
   },
   DisplayAnImage: {
     screen: DisplayAnImage
+  },
+  Overlay: {
+    screen: Overlay
   }
 }, {
   initialRouteName: "Home",

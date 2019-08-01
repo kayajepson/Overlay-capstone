@@ -2,12 +2,41 @@
 
 import * as React from 'react';
 import { Animated, StyleSheet, View, Image } from 'react-native';
-
+import { Camera } from 'expo-camera';
 import { PanGestureHandler, PinchGestureHandler, RotationGestureHandler, State } from 'react-native-gesture-handler';
 
 const USE_NATIVE_DRIVER = false; // https://github.com/kmagiera/react-native-gesture-handler/issues/71
 const MINIMUM_STICKER_SCALE = 0.25;
 const MAXIMUM_STICKER_SCALE = 2.5;
+
+class CameraAgain extends React.Component {
+  state = {
+    hasCameraPermission: null,
+    type: Camera.Constants.Type.back,
+  };
+
+  async componentDidMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
+  render() {
+    const { hasCameraPermission } = this.state;
+    if (hasCameraPermission === null) {
+      return <View />;
+    } else if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    } else {
+      return (
+        <View style={{ flex: 1 }}>
+          <Camera style={{ flex: 1 }} type={this.state.type}>
+          </Camera>
+        </View>
+      );
+    }
+  }
+}
+
 
 export class Sticker extends React.Component {
   onPanGestureEvent: (...args: any[]) => void;
@@ -26,6 +55,7 @@ export class Sticker extends React.Component {
 
   constructor(props) {
     super(props);
+    this.overlayUrl = props.navigation.state.params.photoUrl
 
     /* Pinching */
     this.baseScale = new Animated.Value(1);
@@ -106,8 +136,14 @@ export class Sticker extends React.Component {
     };
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-        <Image source={{uri: 'https://i.ytimg.com/vi/E9U9xS4thxU/hqdefault.jpg'}} style={styles.backgroundImage}/>
-
+          <Camera style={{ flex: 1 }} type={Camera.Constants.Type.back}>
+          </Camera>
+      </View>
+    )
+    return (
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+          <Camera style={{ flex: 1 }} type={Camera.Constants.Type.back}>
+          </Camera>
         <PanGestureHandler
           {...this.props}
           onGestureEvent={this.onPanGestureEvent}
@@ -146,8 +182,7 @@ export class Sticker extends React.Component {
                     },
                   ]}
                   source={{
-                    uri:
-                      'https://i.pinimg.com/736x/82/cf/b2/82cfb200c95adef00650e6450ef42925--pet-logo-cat-silhouette.jpg',
+                    uri: this.overlayUrl,
                   }}
                 />
               </Animated.View>

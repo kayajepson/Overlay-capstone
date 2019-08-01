@@ -10,18 +10,14 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       titleText: "which would you prefer?",
-      photoText: 'take a photo',
-      galleryText: 'open from gallery',
-      loading: false,
-      overlayUri: null,
-      backgroundUri:'',
+      photoText: 'take an overlay photo',
+      galleryText: 'choose an overlay photo from the gallery',
     };
   }
 
   render() {
     const logoImage = require('../../assets/overlay_logo.png');
     const floralIcon = require('../../assets/logo_img_sm.png');
-
 
     return (
       <View style={styles.container}>
