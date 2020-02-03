@@ -1,49 +1,54 @@
-Project started by clone of: 
-[Try it on Expo](https://expo.io/@documentation/camerja).
-
 
 # OVERLAY
 
-# PROJECT DESCRIPTION
-***PROPOSAL SUBMITTED FOR CAPSTONE PROJECT***
+AR style app that takes a user captured photo of an object, uploads the image to the Cloudinary API (utilizing the AI Background Removal add-on) to isolate the object, then overlay the result onto the user's camera feed. Briefly, it will allow users to display what a captured object will look like in a new space via their camera.
 
-**Name of Project:** Overlay
+## Getting Started
 
-**Project’s Purpose or Goal: (What will it do for users?)**
-Overlay allows users to capture a photo of an object, have that photo’s background removed, and overlay that image onto their camera app to display what the object would look like in a new space. A user can then save the composited image to their device.
+These instructions will get you a copy of the project up and running on your local machine.
 
-**List the absolute minimum features the project requires to meet this purpose or goal:**  
-The MVP will be a bit smaller scale (after speaking with Elly) since tackling React Native has proven to be difficult in the timeframe for group weeks / capstone projects. MVP will include a web app that allows users to select from a library of objects with the backgrounds already removed and overlay the selected object onto their choice of background from a separate library. Once those features have been implemented, my stretch goals will include allowing users to upload their own background image and download the final overlaid image to their device. Implementing the Cloudinary API to utilize their ‘Cloudinary AI Background Removal’ add on tool will be the next addition. Once I am able to implement this tool, I will allow users to upload their own image to be processed by the API. If I able able to get these features working, I will then tackle React Native to make my app fully functional on mobile (which is the ideal device).  
+### Prerequisites
+* Node.js [Get the latest version here](https://nodejs.org/en/)
+* Git [Download Git here](https://git-scm.com/)
 
-**What tools, frameworks, libraries, APIs, modules and/or other resources (whatever is specific to your track, and your language) will you use to create this MVP? List them all here. Be specific.**
-React/React Native - build out the app  
-Firebase (or C#) - database to hold image uploads?  
-Materialize CSS or Material UI- styling  
+* Download Expo Client from the [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=www) or [App store](https://itunes.apple.com/app/apple-store/id982107779)
 
-**If you finish developing the minimum viable product (MVP) with time to spare, what will you work on next? Describe these features here: Be specific.**  
-I went over these above - but to reiterate:  
-Once the MVP has been achieved, my stretch goals will include allowing users to upload their own background image and download the final overlaid image to their device. Implementing the Cloudinary API to utilize their ‘Cloudinary AI Background Removal’ add on tool will be the next addition. Once I am able to implement this tool, I will allow users to upload their own image to be processed by the API. If I able able to get these features working, I will then tackle React Native to make my app fully functional on mobile (which is the ideal device).  
+### Installing
 
+Install Expo CLI with the following command:
 
-**What additional tools, frameworks, libraries, APIs, or other resources will these additional features require?**  
-Cloudinary API - process images to remove background  
-Firebase - user login and database
+```
+npm install expo-cli
+```
 
-## COMPONENT TREE DRAFT
+Clone project from github:
 
-This is a draft of the component tree at first consideration. I anticipate some things being switched around as the project progresses.
-![initial component tree image](./assets/mockup/comp-tree.png)
+```
+git clone https://github.com/kayajepson/Overlay-capstone
+```
+Install project dependencies:
 
-## PRIMARY SCREEN MOCKUPS
+```
+npm install
+```
+Start the development server:
 
-Initial layout and design mockups. Floral asset is a stand in for a logo. I believe these are the main screens the user will see.
-![initial app mockup image](./assets/mockup/1_splash.png)
-![initial app mockup image](./assets/mockup/2_login.png)
-![initial app mockup image](./assets/mockup/3_image.png)
-![initial app mockup image](./assets/mockup/4_object.png)
-![initial app mockup image](./assets/mockup/5_background.png)
-![initial app mockup image](./assets/mockup/6_composite.png)
+```
+npm start
+```
 
-## AUTHOR
+Open the app on your phone/tablet:
 
--   **Kaya Jepson**
+```
+Scan QR code found in the terminal or on the Expo Dev Tools page
+```
+
+Navigate through the prompts to capture an image of an object and view the object in a new space via your device's camera feed.
+
+## Built With
+
+* [Expo SDK](http://www.https://docs.expo.io/versions/latest/) - React Native using Expo
+
+## Project Screenshots
+
+![current progress image](./assets/mockup_sm.jpg)
