@@ -47,7 +47,7 @@ Navigate through the prompts to capture an image of an object and view the objec
 
 ## Built With
 
-* [Expo SDK](http://www.https://docs.expo.io/versions/latest/) - React Native using Expo
+* [Expo SDK](https://docs.expo.io/versions/latest/) - React Native using Expo
 
 ## Project Screenshots
 
